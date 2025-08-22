@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <math.h>
+#include <assert.h>
+#define EPS 1e-7
 
 
 enum NRoots
@@ -20,7 +22,7 @@ int main(void)
     printf ("# Enter a, b, c: ");
 
     double a = NAN, b = NAN, c = NAN; // TODO: NAN
-    scanf ("%lg %lg %lg", &a, &b, &c);
+    scanf ("%lg %lg %lg", &a, &b, &c); // TODO: input processing
 
     double x1 = 0, x2 = 0;
     enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
@@ -30,8 +32,11 @@ int main(void)
     return 0;
 }
 
-enum NRoots SolveSquare (double a, double b, double c, double* x1, double* x2)
+enum NRoots SolveSquare (double a, double b, double c, double* const x1, double* const x2) // TODO: const
 {
+    assert(!(isnan(a)) && "Error! Coefficient a is not a number!");
+    assert(!(isnan(b)) && "Error! Coefficient b is not a number!");
+    assert(!(isnan(c)) && "Error! Coefficient c is not a number!"); // TODO: isnan()  NAN != NAN
     double D = (b * b) - (4 * a * c);
     if (IsZero(a))    // TODO: function is_zero(double)
     {
@@ -56,7 +61,7 @@ enum NRoots SolveSquare (double a, double b, double c, double* x1, double* x2)
             *x2 = (-b - sqrt(D)) / (2 * a);
             return TWO_ROOTS;
         }
-        else if (D == 0)
+        else if (IsZero(D)) // TODO: compare with zero
         {
             *x1 = (-b) / (2 * a);
             return ONE_ROOT;
@@ -80,14 +85,13 @@ void PrintRoots (enum NRoots roots_count, double x1, double x2)
                 break;
         case INFINITE_ROOTS: printf ("Infinite quantity of roots\n");
                 break;
+        default: printf("main(): ERROR: Roots Count = %d\n", roots_count);
     }
 }
 
 bool IsZero (double n)
 {
-    const double eps = 1e-7;
-
-    if (n < eps && n > -eps)
+    if (n < EPS && n > -EPS)
     {
         return true;
     }
@@ -96,3 +100,8 @@ bool IsZero (double n)
         return false;
     }
 }
+
+/* void InputProcessing (double* a, double* b, double* c)
+{
+
+} */
