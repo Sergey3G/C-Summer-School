@@ -16,14 +16,15 @@ enum NRoots
 bool IsZero(double n);
 enum NRoots SolveSquare(double a, double b, double c, double* x1, double* x2);
 void PrintRoots(enum NRoots roots_count, double x1, double x2);
+int InputProcessing(double* a, double* b, double* c);
+void ClearBuffer(void);
 
 int main(void)
 {
-    printf ("# Enter a, b, c: ");
 
     double a = NAN, b = NAN, c = NAN; // TODO: NAN
-    scanf ("%lg %lg %lg", &a, &b, &c); // TODO: input processing
-
+    InputProcessing(&a, &b, &c); // TODO: input processing
+    printf("a = %g, b = %g, c = %g\n", a, b, c);
     double x1 = 0, x2 = 0;
     enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
 
@@ -101,7 +102,31 @@ bool IsZero (double n)
     }
 }
 
-/* void InputProcessing (double* a, double* b, double* c)
+int InputProcessing (double* a, double* b, double* c)
 {
+    int inputed_count = 0;
 
-} */
+    while (true)
+    {
+        printf("Enter coefficients of quadratic equation ax^2 + bx + c = 0: ");
+        inputed_count = scanf("%lf %lf %lf", a, b, c);
+
+        if (inputed_count == 3)
+        {
+            ClearBuffer();
+            return 1;
+        }
+        else
+        {
+            printf("Input error. Try again.\n");
+            ClearBuffer();
+            return 0;
+        }
+    }
+}
+
+void ClearBuffer (void)
+{
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
+}
