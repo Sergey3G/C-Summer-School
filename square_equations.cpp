@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#define EPS 1e-7
+#define EPS 1e-10
 
 
 enum NRoots
@@ -130,3 +130,15 @@ void ClearBuffer (void)
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF);
 }
+
+/*
+int TestSolveSquare (void)
+{
+    double x1 = 0, x2 = 0;
+    int nRoots = SolveSquare(1, -5, 6, &x1, &x2);
+    if (!(nRoots == 2 && x1 == 2 && x2 == 3))
+    {
+        printf("Error: SolveSquare(-1, 5, 6, ...) -> 2, x1 = %lf, x2 = %lf (should be x1 = 2, x2 = 3\n", x1, x2);
+    }
+}
+*/
