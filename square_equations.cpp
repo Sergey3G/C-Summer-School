@@ -27,7 +27,7 @@ int main(void)
     InputProcessing(&a, &b, &c); // TODO: input processing
     printf("a = %lg, b = %lg, c = %lg\n", a, b, c);
     double x1 = 0, x2 = 0;
-    // TestSolveSquare();
+    TestSolveSquare();
     enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
 
     PrintRoots(nRoots, x1, x2);
@@ -133,7 +133,7 @@ void ClearBuffer (void)
     while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
-/*
+
 bool TestSolveSquare (void)
 {
     double x1 = 0, x2 = 0;
@@ -180,4 +180,4 @@ bool TestSolveSquare (void)
         return false;
     } else return true;
 }
-*/
+
