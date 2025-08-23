@@ -12,6 +12,16 @@ enum NRoots
     INFINITE_ROOTS = -1
 };
 
+/*
+struct SquareSolver
+{
+    double a = NAN;
+    double b = NAN;
+    double c = NAN;
+    double x1 = NAN;
+    double x2 = NAN;
+}
+*/
 
 bool IsZero(double n);
 enum NRoots SolveSquare(double a, double b, double c, double* x1, double* x2);
