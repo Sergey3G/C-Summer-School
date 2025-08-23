@@ -15,6 +15,7 @@ enum NRoots
 
 bool IsZero(double n);
 enum NRoots SolveSquare(double a, double b, double c, double* x1, double* x2);
+bool TestSolveSquare();
 void PrintRoots(enum NRoots roots_count, double x1, double x2);
 int InputProcessing(double* a, double* b, double* c);
 void ClearBuffer(void);
@@ -26,6 +27,7 @@ int main(void)
     InputProcessing(&a, &b, &c); // TODO: input processing
     printf("a = %lg, b = %lg, c = %lg\n", a, b, c);
     double x1 = 0, x2 = 0;
+    // TestSolveSquare();
     enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
 
     PrintRoots(nRoots, x1, x2);
@@ -132,13 +134,50 @@ void ClearBuffer (void)
 }
 
 /*
-int TestSolveSquare (void)
+bool TestSolveSquare (void)
 {
     double x1 = 0, x2 = 0;
-    int nRoots = SolveSquare(1, -5, 6, &x1, &x2);
-    if (!(nRoots == 2 && x1 == 2 && x2 == 3))
+    enum NRoots nRoots_1 = SolveSquare(1, -5, 6, &x1, &x2);
+    enum NRoots nRoots_2 = SolveSquare(0, -2, 8, &x1, &x2);
+    enum NRoots nRoots_3 = SolveSquare(2, 0, -8, &x1, &x2);
+    enum NRoots nRoots_4 = SolveSquare(3, 6, 0, &x1, &x2);
+    enum NRoots nRoots_5 = SolveSquare(1e-8, 0, 0, &x1, &x2);
+    enum NRoots nRoots_6 = SolveSquare(0, 0, 0, &x1, &x2);
+    enum NRoots nRoots_7 = SolveSquare(2, -4, 2, &x1, &x2);
+    if (!(nRoots_1 == TWO_ROOTS && x1 == 3 && x2 == 2))
     {
-        printf("Error: SolveSquare(-1, 5, 6, ...) -> 2, x1 = %lf, x2 = %lf (should be x1 = 2, x2 = 3\n", x1, x2);
-    }
+        printf("Error: SolveSquare(1, -5, 6, ...) -> 2, x1 = %lf, x2 = %lf (should be x1 = 2, x2 = 3)\n", x1, x2);
+        return false;
+    } else return true;
+    if (!(nRoots_2 == ONE_ROOT && x1 == 4))
+    {
+        printf("Error: SolveSquare(0, -2, 8, ...) -> 1, x1 = %lf (should be x = 4)\n", x1);
+        return false;
+    } else return true;
+    if (!(nRoots_3 == TWO_ROOTS && x1 == 2 && x2 == -2))
+    {
+        printf("Error: SolveSquare(2, 0, -8, ...) -> 2, x1 = %lf (should be x1 = 2, x2 = -2)\n", x1, x2);
+        return false;
+    } else return true;
+    if (!(nRoots_4 == TWO_ROOTS && x1 == 0 && x2 == -2))
+    {
+        printf("Error: SolveSquare(3, 6, 0, ...) -> 2, x1 = %lf, x2 = %lf (should be x1 = 0, x2 = -2)\n", x1, x2);
+        return false;
+    } else return true;
+    if (!(nRoots_5 == ONE_ROOT && x1 == 0))
+    {
+        printf("Error: SolveSquare(1e-8, 0, 0, ...) -> 1, x = %lf (should be x = 0)\n", x1);
+        return false;
+    } else return true;
+    if (!(nRoots_6 == INFINITE_ROOTS))
+    {
+        printf("Error: SolveSquare(0, 0, 0, ...) -> 0, (should be infinite roots)");
+        return false;
+    } else return true;
+    if (!(nRoots_7 == ONE_ROOT && x1 == 1))
+    {
+        printf("Error: SolveSquare(2, -4, 2, ...) -> 1, x = %lf (should be x = 1)");
+        return false;
+    } else return true;
 }
 */
