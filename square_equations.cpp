@@ -24,7 +24,7 @@ int main(void)
 
     double a = NAN, b = NAN, c = NAN; // TODO: NAN
     InputProcessing(&a, &b, &c); // TODO: input processing
-    printf("a = %g, b = %g, c = %g\n", a, b, c);
+    printf("a = %lg, b = %lg, c = %lg\n", a, b, c);
     double x1 = 0, x2 = 0;
     enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
 
@@ -80,9 +80,9 @@ void PrintRoots (enum NRoots roots_count, double x1, double x2)
     {
         case ZERO_ROOTS: printf ("No roots\n");
                 break;
-        case ONE_ROOT: printf ("One root: %f\n", x1);
+        case ONE_ROOT: printf ("One root: x = %lg\n", x1);
                 break;
-        case TWO_ROOTS: printf ("Two roots: %f, %f\n", x1, x2);
+        case TWO_ROOTS: printf ("Two roots: x1 = %lg, x2 = %lg\n", x1, x2);
                 break;
         case INFINITE_ROOTS: printf ("Infinite quantity of roots\n");
                 break;
@@ -109,7 +109,7 @@ int InputProcessing (double* a, double* b, double* c)
     while (true)
     {
         printf("Enter coefficients of quadratic equation ax^2 + bx + c = 0: ");
-        inputed_count = scanf("%lf %lf %lf", a, b, c);
+        inputed_count = scanf("%lg %lg %lg", a, b, c);
 
         if (inputed_count == 3)
         {
