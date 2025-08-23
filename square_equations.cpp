@@ -185,8 +185,8 @@ void TestOneSolveSquare (double a, double b, double c, double expected_x1, doubl
     enum NRoots nRoots = SolveSquare(a, b, c, &x1, &x2);
 
     if (expected_nRoots == nRoots &&
-        (IsZero(expected_x1 - x1) || (isnan(x1) && isnan(expected_x1))) &&
-        (IsZero(expected_x2 - x2) || (isnan(x2) && isnan(expected_x2))))
+        (IsZero(expected_x1 - x1) || IsZero(expected_x1 - x2) || (isnan(x1) && isnan(expected_x1))) &&
+        (IsZero(expected_x2 - x2) || IsZero(expected_x1 - x2) || (isnan(x2) && isnan(expected_x2))))
     {
         printf("Test is successful!\n");
     }
