@@ -135,19 +135,19 @@ bool IsZero (double n)
 
 int InputProcessing (double* a, double* b, double* c)
 {
-    int inputed_count = 0;
+    int count_of_inputs = 0;
 
     while (true)
     {
         printf("Enter coefficients of quadratic equation ax^2 + bx + c = 0: ");
-        inputed_count = scanf("%lg %lg %lg", a, b, c);
+        count_of_inputs = scanf("%lg %lg %lg", a, b, c);
 
-        if (inputed_count == 3)
+        if (count_of_inputs == 3)
         {
             ClearBuffer();
             return 1;
         }
-        else if (inputed_count == EOF)
+        else if (count_of_inputs == EOF)
         {
             printf("End of file.\n");
             ClearBuffer();
