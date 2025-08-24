@@ -20,7 +20,7 @@ struct SquareSolver
     double c = NAN;
     double x1 = NAN;
     double x2 = NAN;
-}
+};
 
 
 bool IsZero(double n);
@@ -172,8 +172,8 @@ void TestManySolveSquare (void)
                             {1e-8, 0, 0, 0, NAN, ONE_ROOT},
                             {0, 0, 0, NAN, NAN, INFINITE_ROOTS},
                             {2, -4, 2, 1, NAN, ONE_ROOT},
-                            {1, 3, 1, NAN, NAN, ZERO_ROOTS}};
-    for (i = 0; i < 7; i++)
+                            {1, 1, 1, NAN, NAN, ZERO_ROOTS}};
+    for (i = 0; i < 8; i++)
     {
         double a = testInfo[i][0];
         double b = testInfo[i][1];
