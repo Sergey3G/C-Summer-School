@@ -13,14 +13,14 @@ enum NRoots
 };
 
 
-struct SquareSolver
+struct TestSquareSolver
 {
     double a;
     double b;
     double c;
     double x1;
     double x2;
-    enum NRoots roots_count;
+    enum NRoots nRoots;
 
 };
 
@@ -58,7 +58,7 @@ enum NRoots SolveSquare (double a, double b, double c, double* const x1, double*
     double D = (b * b) - (4 * a * c);
     if (IsZero(a))
     {
-        SolveLinear(b, c, x1);
+        return SolveLinear(b, c, x1);
     }
     else
     {
@@ -173,7 +173,7 @@ void TestManySolveSquare (void)
 {
     int i = 0;
     double x1 = NAN, x2 = NAN;
-    double testInfo[8][6] = {{1, -5, 6, 3, 2, TWO_ROOTS},
+    TestSquareSolver testInfo[8] = {{1, -5, 6, 3, 2, TWO_ROOTS},
                             {0, -2, 8, 4, NAN, ONE_ROOT},
                             {2, 0, -8, 2, -2, TWO_ROOTS},
                             {3, 6, 0, 0, -2, TWO_ROOTS},
@@ -181,15 +181,15 @@ void TestManySolveSquare (void)
                             {0, 0, 0, NAN, NAN, INFINITE_ROOTS},
                             {2, -4, 2, 1, NAN, ONE_ROOT},
                             {1, 1, 1, NAN, NAN, ZERO_ROOTS}};
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < (sizeof(testInfo) / sizeof(testInfo[0])); i++)
     {
-        double a = testInfo[i][0];
-        double b = testInfo[i][1];
-        double c = testInfo[i][2];
+        double a = testInfo[i].a;
+        double b = testInfo[i].b;
+        double c = testInfo[i].c;
 
-        enum NRoots expected_nRoots = (enum NRoots)testInfo[i][5];
-        double expected_x1 = testInfo[i][3];
-        double expected_x2 = testInfo[i][4];
+        enum NRoots expected_nRoots = (enum NRoots)testInfo[i].nRoots;
+        double expected_x1 = testInfo[i].x1;
+        double expected_x2 = testInfo[i].x2;
 
         TestOneSolveSquare(a, b, c, expected_x1, expected_x2, expected_nRoots);
 
@@ -199,12 +199,28 @@ void TestManySolveSquare (void)
 void TestOneSolveSquare (double a, double b, double c, double expected_x1, double expected_x2, int expected_nRoots)
 {
     double x1 = NAN, x2 = NAN;
-
     enum NRoots nRoots = SolveSquare(a, b, c, &x1, &x2);
+    bool success = false;
 
-    if (expected_nRoots == nRoots &&
-        (IsZero(expected_x1 - x1) || IsZero(expected_x1 - x2) || (isnan(x1) && isnan(expected_x1))) &&
-        (IsZero(expected_x2 - x2) || IsZero(expected_x2 - x1) || (isnan(x2) && isnan(expected_x2))))
+    if (expected_nRoots == nRoots)
+    {
+        switch (nRoots)
+        {
+            case ZERO_ROOTS:
+            case INFINITE_ROOTS:
+                success = true;
+                break;
+            case ONE_ROOT:
+                success = IsZero(expected_x1 - x1);
+                break;
+            case TWO_ROOTS:
+                success = (IsZero(expected_x1 - x1) && IsZero(expected_x2 - x2)) ||
+                          (IsZero(expected_x1 - x2) && IsZero(expected_x2 - x1));
+                break;
+        }
+    }
+
+    if (success)
     {
         printf("Test is successful!\n");
     }
