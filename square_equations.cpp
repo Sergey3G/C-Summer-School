@@ -15,16 +15,19 @@ enum NRoots
 
 struct SquareSolver
 {
-    double a = NAN;
-    double b = NAN;
-    double c = NAN;
-    double x1 = NAN;
-    double x2 = NAN;
+    double a;
+    double b;
+    double c;
+    double x1;
+    double x2;
+    enum NRoots roots_count;
+
 };
 
 
 bool IsZero(double n);
 enum NRoots SolveSquare(double a, double b, double c, double* x1, double* x2);
+enum NRoots SolveLinear(double b, double c, double* x1);
 void TestOneSolveSquare(double a, double b, double c, double expected_x1, double expected_x2, int expected_nRoots);
 void TestManySolveSquare();
 void PrintRoots(enum NRoots roots_count, double x1, double x2);
@@ -34,10 +37,10 @@ void ClearBuffer(void);
 int main(void)
 {
 
-    double a = NAN, b = NAN, c = NAN; // TODO: NAN
-    InputProcessing(&a, &b, &c); // TODO: input processing
+    double a = NAN, b = NAN, c = NAN;
+    InputProcessing(&a, &b, &c);
     printf("a = %lg, b = %lg, c = %lg\n", a, b, c);
-    double x1 = NAN, x2 = NAN; // TODO: NAN
+    double x1 = NAN, x2 = NAN;
     enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
 
     PrintRoots(nRoots, x1, x2);
@@ -47,30 +50,15 @@ int main(void)
     return 0;
 }
 
-enum NRoots SolveSquare (double a, double b, double c, double* const x1, double* const x2) // TODO: const
+enum NRoots SolveSquare (double a, double b, double c, double* const x1, double* const x2)
 {
-    assert(!(isnan(a)) && "Error! Coefficient a is not a number!");
+    assert(!(isnan(a)) && "Error! Coefficient a is not a number!"); // TODO: assert(ptr)
     assert(!(isnan(b)) && "Error! Coefficient b is not a number!");
-    assert(!(isnan(c)) && "Error! Coefficient c is not a number!"); // TODO: isnan()  NAN != NAN
+    assert(!(isnan(c)) && "Error! Coefficient c is not a number!");
     double D = (b * b) - (4 * a * c);
-    if (IsZero(a))    // TODO: function is_zero(double)
+    if (IsZero(a))
     {
-        if (IsZero(b))
-        {
-            if (IsZero(c))
-            {
-                return INFINITE_ROOTS; // TODO: enum
-            }
-            else
-            {
-                return ZERO_ROOTS;
-            }
-        }
-        else
-        {
-            *x1 =  -(c / b);
-            return ONE_ROOT;
-        }
+        SolveLinear(b, c, x1);
     }
     else
     {
@@ -89,6 +77,26 @@ enum NRoots SolveSquare (double a, double b, double c, double* const x1, double*
         {
             return ZERO_ROOTS;
         }
+    }
+}
+
+enum NRoots SolveLinear(double b, double c, double* const x1)
+{
+    if (IsZero(b))
+    {
+        if (IsZero(c))
+        {
+            return INFINITE_ROOTS;
+        }
+        else
+        {
+            return ZERO_ROOTS;
+        }
+    }
+    else
+    {
+        *x1 = -(c / b);
+        return ONE_ROOT;
     }
 }
 
@@ -196,7 +204,7 @@ void TestOneSolveSquare (double a, double b, double c, double expected_x1, doubl
 
     if (expected_nRoots == nRoots &&
         (IsZero(expected_x1 - x1) || IsZero(expected_x1 - x2) || (isnan(x1) && isnan(expected_x1))) &&
-        (IsZero(expected_x2 - x2) || IsZero(expected_x1 - x2) || (isnan(x2) && isnan(expected_x2))))
+        (IsZero(expected_x2 - x2) || IsZero(expected_x2 - x1) || (isnan(x2) && isnan(expected_x2))))
     {
         printf("Test is successful!\n");
     }
