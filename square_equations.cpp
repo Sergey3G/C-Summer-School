@@ -1,234 +1,28 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
+#include <stdlib.h>
+#include "IsZero.hpp"
+#include "NRoots.hpp"
+#include "Solver.hpp"
+#include "Input.hpp"
+#include "Printer.hpp"
+#include "Tester.hpp"
 #define EPS 1e-10
 
 
-enum NRoots
-{
-    ZERO_ROOTS = 0,
-    ONE_ROOT = 1,
-    TWO_ROOTS = 2,
-    INFINITE_ROOTS = -1
-};
-
-
-struct TestSquareSolver
-{
-    double a;
-    double b;
-    double c;
-    double x1;
-    double x2;
-    enum NRoots n_roots;
-
-};
-
-
-bool IsZero(double n);
-enum NRoots SolveSquare(double a, double b, double c, double* x1, double* x2);
-enum NRoots SolveLinear(double b, double c, double* x1);
-void TestOneSolveSquare(double a, double b, double c, double expected_x1, double expected_x2, int expected_nRoots);
-void TestManySolveSquare();
-void PrintRoots(enum NRoots roots_count, double x1, double x2);
-int InputProcessing(double* a, double* b, double* c);
-void ClearBuffer(void);
-
 int main(void)
 {
-
     double a = NAN, b = NAN, c = NAN;
     InputProcessing(&a, &b, &c);
     printf("a = %lg, b = %lg, c = %lg\n", a, b, c);
     double x1 = NAN, x2 = NAN;
-    enum NRoots nRoots = SolveSquare (a, b, c, &x1, &x2);
-
+    enum NRoots nRoots = SolveSquare(a, b, c, &x1, &x2);
     PrintRoots(nRoots, x1, x2);
-
     TestManySolveSquare();
-
     return 0;
 }
 
-enum NRoots SolveSquare (double a, double b, double c, double* const x1, double* const x2)
-{
-    assert(!(isnan(a)) && "Error! Coefficient a is not a number!"); // TODO: assert(ptr)
-    assert(!(isnan(b)) && "Error! Coefficient b is not a number!");
-    assert(!(isnan(c)) && "Error! Coefficient c is not a number!");
-    double D = (b * b) - (4 * a * c);
-    if (IsZero(a))
-    {
-        return SolveLinear(b, c, x1);
-    }
-    else
-    {
-        if (D > 0)
-        {
-            *x1 = (-b + sqrt(D)) / (2 * a);
-            *x2 = (-b - sqrt(D)) / (2 * a);
-            return TWO_ROOTS;
-        }
-        else if (IsZero(D)) // TODO: compare with zero
-        {
-            *x1 = (-b) / (2 * a);
-            return ONE_ROOT;
-        }
-        else
-        {
-            return ZERO_ROOTS;
-        }
-    }
-}
-
-enum NRoots SolveLinear(double b, double c, double* const x1)
-{
-    if (IsZero(b))
-    {
-        if (IsZero(c))
-        {
-            return INFINITE_ROOTS;
-        }
-        else
-        {
-            return ZERO_ROOTS;
-        }
-    }
-    else
-    {
-        *x1 = -(c / b);
-        return ONE_ROOT;
-    }
-}
-
-void PrintRoots (enum NRoots n_roots, double x1, double x2)
-{
-    switch (n_roots)
-    {
-        case ZERO_ROOTS:
-            printf ("No roots\n");
-            break;
-        case ONE_ROOT:
-            printf ("One root: x = %lg\n", x1);
-            break;
-        case TWO_ROOTS:
-            printf ("Two roots: x1 = %lg, x2 = %lg\n", x1, x2);
-            break;
-        case INFINITE_ROOTS:
-            printf ("Infinite quantity of roots\n");
-            break;
-        default:
-            printf("main(): ERROR: Roots Count = %d\n", n_roots);
-    }
-}
-
-bool IsZero (double n)
-{
-    if (n < EPS && n > -EPS)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-int InputProcessing (double* a, double* b, double* c)
-{
-    int count_of_inputs = 0;
-
-    while (true)
-    {
-        printf("Enter coefficients of quadratic equation ax^2 + bx + c = 0: ");
-        count_of_inputs = scanf("%lg %lg %lg", a, b, c);
-
-        if (count_of_inputs == 3)
-        {
-            ClearBuffer();
-            return 1;
-        }
-        else if (count_of_inputs == EOF)
-        {
-            printf("End of file.\n");
-            ClearBuffer();
-            return 0;
-        }
-        else
-        {
-            ClearBuffer();
-            printf("Input error. Try again.\n");
-
-        }
-    }
-}
-
-void ClearBuffer (void)
-{
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF);
-}
 
 
-void TestManySolveSquare (void)
-{
-    int i = 0;
-    double x1 = NAN, x2 = NAN;
-    TestSquareSolver testInfo[8] = {{1, -5, 6, 3, 2, TWO_ROOTS},
-                                    {0, -2, 8, 4, NAN, ONE_ROOT},
-                                    {2, 0, -8, 2, -2, TWO_ROOTS},
-                                    {3, 6, 0, 0, -2, TWO_ROOTS},
-                                    {1e-8, 0, 0, 0, NAN, ONE_ROOT},
-                                    {0, 0, 0, NAN, NAN, INFINITE_ROOTS},
-                                    {2, -4, 2, 1, NAN, ONE_ROOT},
-                                    {1, 1, 1, NAN, NAN, ZERO_ROOTS}};
-    for (i = 0; i < (sizeof(testInfo) / sizeof(testInfo[0])); i++)
-    {
-        double a = testInfo[i].a;
-        double b = testInfo[i].b;
-        double c = testInfo[i].c;
-
-        enum NRoots expected_n_roots = testInfo[i].n_roots;
-        double expected_x1 = testInfo[i].x1;
-        double expected_x2 = testInfo[i].x2;
-
-        TestOneSolveSquare(a, b, c, expected_x1, expected_x2, expected_n_roots);   // TODO: codestyle
-
-    }
-}
-
-void TestOneSolveSquare (double a, double b, double c, double expected_x1, double expected_x2, int expected_nRoots)
-{
-    double x1 = NAN, x2 = NAN;
-    enum NRoots n_roots = SolveSquare(a, b, c, &x1, &x2);
-    bool success = false;
-
-    if (expected_nRoots == n_roots)
-    {
-        switch (n_roots)
-        {
-            case ZERO_ROOTS:
-            case INFINITE_ROOTS:
-                success = true;
-                break;
-            case ONE_ROOT:
-                success = IsZero(expected_x1 - x1);
-                break;
-            case TWO_ROOTS:
-                success = (IsZero(expected_x1 - x1) && IsZero(expected_x2 - x2)) ||
-                          (IsZero(expected_x1 - x2) && IsZero(expected_x2 - x1));
-                break;
-        }
-    }
-
-    if (success)
-    {
-        printf("Test is successful!\n");
-    }
-    else
-    {
-        printf("Test is failed!\n");
-        printf("Expected roots: x1 = %lg, x2 = %lg\n", expected_x1, expected_x2);
-        printf("Got roots: x1 = %lg, x2 = %lg\n", x1, x2);
-    }
-}
 
