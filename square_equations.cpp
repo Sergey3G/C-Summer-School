@@ -23,8 +23,7 @@ int main(const int argc, char* const argv[])
             enum NRoots nRoots = SolveSquare(a, b, c, &x1, &x2);
             PrintRoots(nRoots, x1, x2);
         }
-
-        if (strncmp(argv[1], "--test", 6) == 0)
+        else if (strncmp(argv[1], "--test", 6) == 0)
         {
             TestManySolveSquare();
         }
