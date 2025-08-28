@@ -1,5 +1,4 @@
-all:
-	main
+all: main
 
 main: square_equations.o Input.o IsZero.o NRoots.o Printer.o Solver.o Tester.o
 	g++ square_equations.o Input.o IsZero.o NRoots.o Printer.o Solver.o Tester.o -o main

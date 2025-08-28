@@ -2,6 +2,7 @@
 #include <math.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 #include "IsZero.hpp"
 #include "NRoots.hpp"
 #include "Solver.hpp"
