@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "Solver.hpp"
+#include "Colours.hpp"
 
 struct TestSquareSolver
 {

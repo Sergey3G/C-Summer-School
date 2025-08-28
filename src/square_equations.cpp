@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include "IsZero.hpp"
 #include "NRoots.hpp"
 #include "Solver.hpp"
 #include "Input.hpp"
@@ -16,6 +15,7 @@ int main(const int argc, char* const argv[])
     if (argc > 1)
     {
         printf("argc = %d\nargv[1] = %s\n", argc, argv[1]);
+
         if (strncmp(argv[1], "--solve", 7) == 0)
         {
             double a = NAN, b = NAN, c = NAN;

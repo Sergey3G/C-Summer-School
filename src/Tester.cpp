@@ -2,7 +2,6 @@
 #include "Tester.hpp"
 #include "NRoots.hpp"
 #include "IsZero.hpp"
-#include "Colours.hpp"
 
 void TestManySolveSquare(void)
 {
