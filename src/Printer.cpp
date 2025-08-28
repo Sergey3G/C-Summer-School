@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "Printer.hpp"
-#include "NRoots.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Printer.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\NRoots.hpp"
 
 
 void PrintRoots(enum NRoots n_roots, double x1, double x2)

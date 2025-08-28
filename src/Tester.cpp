@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "Tester.hpp"
-#include "NRoots.hpp"
-#include "IsZero.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Tester.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\NRoots.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\IsZero.hpp"
 
 void TestManySolveSquare(void)
 {

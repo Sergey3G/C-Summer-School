@@ -8,4 +8,4 @@
                 message, __FILE__, __FUNCTION__, __LINE__);\
     }
 
-#ifndef
+#endif

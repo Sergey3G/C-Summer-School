@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Input.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Input.hpp"
 
 int InputProcessing(double* a, double* b, double* c)
 {

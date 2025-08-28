@@ -3,11 +3,11 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include "NRoots.hpp"
-#include "Solver.hpp"
-#include "Input.hpp"
-#include "Printer.hpp"
-#include "Tester.hpp" // TODO: __LINE__ __FUNCTION__ __FILE__
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\NRoots.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Solver.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Input.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Printer.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Tester.hpp"
 
 
 int main(const int argc, char* const argv[])

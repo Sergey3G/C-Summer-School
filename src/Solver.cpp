@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#include "Solver.hpp"
+#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Solver.hpp"
 
 enum NRoots SolveSquare (double a, double b, double c, double* x1, double* x2)
 {
