@@ -120,6 +120,10 @@ C-Summer-School/
 └── README.md                 # This file
 ```
 
+
+![Project Structure](Project_structure.png)
+
+
 Build Commands
 ==============
 
