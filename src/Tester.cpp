@@ -2,6 +2,7 @@
 #include "Tester.hpp"
 #include "NRoots.hpp"
 #include "IsZero.hpp"
+#include "Colours.hpp"
 
 void TestManySolveSquare(void)
 {
@@ -43,11 +44,11 @@ void TestOneSolveSquare(const struct TestSquareSolver* test_struct)
     }
     if (success)
     {
-        printf("\033[32mTest is successful!\033[0m\n");
+        printf(GREEN "Test is successful!" NORMAL "\n");
     }
     else
     {
-        printf("\033[31mTest is failed!\033[0m\n");
+        printf(RED "Test is failed!" NORMAL "\n");
         printf("Expected: n_roots = %d, x1 = %lg, x2 = %lg\n",
                 test_struct->n_roots, test_struct->x1, test_struct->x2);
         printf("Got: n_roots = %d, x1 = %lg, x2 = %lg\n", n_roots, x1, x2);

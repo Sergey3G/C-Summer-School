@@ -1,25 +1,34 @@
+SHELL=C:/Windows/System32/cmd.exe
+
+SRC_DIR=src
+OBJ_DIR=build
+HDR_DIR=include
+
+OBJECTS_LIST=square_equations.o Input.o IsZero.o NRoots.o Printer.o Solver.o Tester.o
+OBJECTS=$(addprefix $(OBJ_DIR)/,$(OBJECTS_LIST))
+
 all: main
 
-main: square_equations.o Input.o IsZero.o NRoots.o Printer.o Solver.o Tester.o
-	g++ square_equations.o Input.o IsZero.o NRoots.o Printer.o Solver.o Tester.o -o main
+main: $(OBJECTS)
+	g++ $(OBJECTS) -o main
 
-square_equations.o: square_equations.cpp
-	g++ -c square_equations.cpp
+square_equations.o: $(SRC_DIR)square_equations.cpp
+	g++ -c $(SRC_DIR)square_equations.cpp
 
-Input.o: Input.cpp Input.hpp
-	g++ -c Input.cpp
+Input.o: $(SRC_DIR)Input.cpp $(HDR_DIR)Input.hpp
+	g++ -c $(SRC_DIR)Input.cpp
 
-NRoots.o: NRoots.cpp NRoots.hpp
-	g++ -c NRoots.cpp
+NRoots.o: $(SRC_DIR)NRoots.cpp $(HDR_DIR)NRoots.hpp
+	g++ -c $(SRC_DIR)NRoots.cpp
 
-Printer.o: Printer.cpp Input.hpp
-	g++ -c Printer.cpp
+Printer.o: $(SRC_DIR)Printer.cpp $(HDR_DIR)Input.hpp
+	g++ -c $(SRC_DIR)Printer.cpp
 
-Solver.o: Solver.cpp Solver.hpp
-	g++ -c Solver.cpp
+Solver.o: $(SRC_DIR)Solver.cpp $(HDR_DIR)Solver.hpp
+	g++ -c $(SRC_DIR)Solver.cpp
 
-Tester.o: Tester.cpp Tester.hpp
-	g++ -c Tester.cpp
+Tester.o: $(SRC_DIR)Tester.cpp $(HDR_DIR)Tester.hpp
+	g++ -c $(SRC_DIR)Tester.cpp
 
 clean:
-	rm -rf *.o main
+	rm -rf *.o *.exe
