@@ -1,21 +1,23 @@
 #include <stdio.h>
 #include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\Tester.hpp"
 #include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\NRoots.hpp"
-#include "C:\Users\Lenovo\Documents\GitHub\C-Summer-School\include\IsZero.hpp"
+#include "..\include\IsZero.hpp"
 
 void TestManySolveSquare(void)
 {
     int n_tests = 0;
+    // = {}; TODO:
     struct TestSquareSolver* file_tests = InputTestsFromFile("test_data.txt",
                                                         &n_tests);
-    if (file_tests != NULL)
-    {
+    if (file_tests == NULL){
+        //TODO:error
+        return;
+    }
         for (int i = 0; i < n_tests; i++) {
             printf("Test %d from file: ", i + 1);
             TestOneSolveSquare(&file_tests[i]);
         }
         free(file_tests);
-    }
 }
 
 void TestOneSolveSquare(const struct TestSquareSolver* test_struct)
@@ -86,14 +88,14 @@ struct TestSquareSolver* InputTestsFromFile(const char* filename, int* n_tests)
 
     char* ptr = buffer;
     int n_chars = 0;
-    if (sscanf(ptr, "%d%n", n_tests, &n_chars) != 1)
+    if (sscanf(ptr, "%d %n", n_tests, &n_chars) != 1)
     {
         printf("Error: cannot read number of tests!\n");
         free(buffer);
         return NULL;
     }
     ptr += n_chars;
-
+//TODO: remove!!!
     struct TestSquareSolver* tests = (struct TestSquareSolver*)calloc(*n_tests, sizeof(struct TestSquareSolver));
     if (tests == NULL)
     {
@@ -105,9 +107,10 @@ struct TestSquareSolver* InputTestsFromFile(const char* filename, int* n_tests)
     for (int i = 0; i < *n_tests; i++)
     {
         int expected_n_roots = 0;
-        if (sscanf(ptr, "%lf %lf %lf %lf %lf %d",
+        int read_symbols = 0;
+        if (sscanf(ptr, "%lf %lf %lf %lf %lf %d %n",
                    &tests[i].a, &tests[i].b, &tests[i].c,
-                   &tests[i].x1, &tests[i].x2, &expected_n_roots) != 6)
+                   &tests[i].x1, &tests[i].x2, &expected_n_roots, &read_symbols) != 6)
         {
             printf("Error: cannot read test %d from file!\n", i + 1);
             free(tests);
@@ -115,6 +118,8 @@ struct TestSquareSolver* InputTestsFromFile(const char* filename, int* n_tests)
             return NULL;
         }
         tests[i].n_roots = (enum NRoots)expected_n_roots;
+        ptr += read_symbols;
+        printf("%lf, %lf, %lf\n", tests[i].a, tests[i].b, tests[i].c);
     }
     free(buffer);
     return tests;
