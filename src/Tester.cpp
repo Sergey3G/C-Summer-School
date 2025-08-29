@@ -56,39 +56,66 @@ void TestOneSolveSquare(const struct TestSquareSolver* test_struct)
 
 struct TestSquareSolver* InputTestsFromFile(const char* filename, int* n_tests)
 {
-    FILE* file = fopen(filename, "r");
+    FILE* file = fopen(filename, "rb");
     if (file == NULL)
     {
         printf("Error: cannot open file '%s'!\n", filename);
         return NULL;
     }
-    if (fscanf(file, "%d", n_tests) != 1)
+
+    fseek(file, 0, SEEK_END);
+    unsigned long file_size = ftell(file);
+    rewind(file);
+
+    char* buffer = (char*)calloc(file_size + 1, sizeof(char));
+    if (buffer == NULL)
     {
-        printf("Error: cannot read number of tests!\n");
+        printf("Error: memory allocation failed!");
         fclose(file);
         return NULL;
     }
+
+    size_t read_size = fread(buffer, sizeof(char), file_size, file);
+    fclose(file);
+    if (read_size != file_size)
+    {
+        printf("Error: cannot read file content!");
+        free(buffer);
+        return NULL;
+    }
+
+    char* ptr = buffer;
+    int n_chars = 0;
+    if (sscanf(ptr, "%d%n", n_tests, &n_chars) != 1)
+    {
+        printf("Error: cannot read number of tests!\n");
+        free(buffer);
+        return NULL;
+    }
+    ptr += n_chars;
+
     struct TestSquareSolver* tests = (struct TestSquareSolver*)calloc(*n_tests, sizeof(struct TestSquareSolver));
     if (tests == NULL)
     {
         printf("Error: memory allocation failed!\n");
-        fclose(file);
+        free(buffer);
         return NULL;
     }
+
     for (int i = 0; i < *n_tests; i++)
     {
-        int tmp_roots = 0;
-        if (fscanf(file, "%lf %lf %lf %lf %lf %d",
+        int expected_n_roots = 0;
+        if (sscanf(ptr, "%lf %lf %lf %lf %lf %d",
                    &tests[i].a, &tests[i].b, &tests[i].c,
-                   &tests[i].x1, &tests[i].x2, &tmp_roots) != 6)
+                   &tests[i].x1, &tests[i].x2, &expected_n_roots) != 6)
         {
             printf("Error: cannot read test %d from file!\n", i + 1);
             free(tests);
-            fclose(file);
+            free(buffer);
             return NULL;
         }
-        tests[i].n_roots = (enum NRoots)tmp_roots;
+        tests[i].n_roots = (enum NRoots)expected_n_roots;
     }
-    fclose(file);
+    free(buffer);
     return tests;
 }
